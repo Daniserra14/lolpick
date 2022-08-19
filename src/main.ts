@@ -11,4 +11,12 @@ app.config.globalProperties.ddragonRoutes = {
   championImg: "http://ddragon.leagueoflegends.com/cdn/{version}/img/champion/",
 };
 
+app.config.globalProperties.scoreColors = [
+  "red",
+  "orange",
+  "yellow",
+  "lime",
+  "green",
+];
+
 app.mount("#app");
