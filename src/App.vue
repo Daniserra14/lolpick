@@ -5,7 +5,7 @@ export default {
   name: "App",
   data() {
     return {
-      version: "12.12.1",
+      version: localStorage.getItem("version"),
 
       //champions
       rawChampionList: {},
@@ -22,6 +22,10 @@ export default {
 
       //search
       searchValue: "",
+
+      //new version
+      newVersion: false,
+      newChampions: [],
     };
   },
   computed: {
@@ -35,13 +39,18 @@ export default {
         )
         .map((champion) => {
           if (!this.championScoreList[champion.id]) {
-            this.championScoreList[champion.id] = {
+            this.newChampions.push({
+              name: champion.name,
+              image: championImgRoute + champion.image.full,
+            });
+
+            this.updateChampionScore(champion.id, {
               top: 0,
               jungle: 0,
               mid: 0,
               bottom: 0,
               support: 0,
-            };
+            });
           }
 
           return {
@@ -64,15 +73,23 @@ export default {
   },
   methods: {
     async fetchLastVersion() {
-      console.log(this.ddragonRoutes.versions);
       const versionResponse = await fetch(this.ddragonRoutes.versions);
       const versions = await versionResponse.json();
-      this.version = versions[0];
+
+      const version = versions[0];
+
+      if (this.version != version) {
+        this.newVersion = version;
+        localStorage.setItem("version", version);
+      } else {
+        this.version = version;
+      }
+
       // update ddragon routes with latest version
       Object.keys(this.ddragonRoutes).forEach((key) => {
         this.ddragonRoutes[key] = this.ddragonRoutes[key].replace(
           "{version}",
-          versions[0]
+          version
         );
       });
     },
@@ -122,9 +139,27 @@ export default {
 </script>
 
 <template>
-  <div class="container mx-auto">
-    <h1>LolPick</h1>
-    <p>Version: {{ version }}</p>
+  <div class="container mx-auto dark:text-white">
+    <h1 class="my-5 text-center text-3xl dark:text-amber-600">LolPick</h1>
+    <div>
+      <p v-if="newVersion && version">
+        <span class="text-xl text-red-500">New version!</span>
+        {{ version }} -> {{ newVersion }}
+      </p>
+      <p v-else>Version: {{ version || newVersion }}</p>
+    </div>
+    <div class="my-4" v-if="newChampions.length && version">
+      <span v-if="newChampions.length == 1" class="text-xl text-red-500">
+        New champion!
+      </span>
+      <span v-else class="text-xl text-red-500">New champions!</span>
+      <div class="mt-2 flex flex-wrap gap-2">
+        <div v-for="newChampion in newChampions" :key="newChampion">
+          <img :src="newChampion.image" :alt="newChampion.name" />
+          <span>{{ newChampion.name }}</span>
+        </div>
+      </div>
+    </div>
     <form class="my-3 flex items-center">
       <label for="simple-search" class="sr-only">Search</label>
       <div class="relative w-full">
@@ -133,7 +168,7 @@ export default {
         >
           <svg
             aria-hidden="true"
-            class="h-5 w-5 text-gray-500 dark:text-gray-400"
+            class="h-5 w-5 text-gray-500"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
@@ -148,18 +183,41 @@ export default {
         <input
           type="text"
           id="simple-search"
-          class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+          class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
           placeholder="Search"
           v-model="searchValue"
         />
+        <button
+          type="button"
+          class="absolute inset-y-0 right-0 flex items-center pr-3"
+          @click="searchValue = ''"
+        >
+          <svg
+            class="h-6 w-6 text-gray-500 hover:text-gray-900"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+        </button>
       </div>
     </form>
     <div id="tags" class="flex justify-center gap-3">
       <button
         v-for="tag in availableTags"
         :key="tag"
-        class="w-24 select-none rounded-full border border-black py-1 hover:bg-slate-100"
-        :class="{ 'bg-orange-500 hover:bg-orange-500': selectedTag == tag }"
+        class="w-24 select-none rounded-full border border-black py-1 hover:bg-slate-100 dark:hover:bg-neutral-600"
+        :class="{
+          'bg-amber-600 hover:bg-amber-600 dark:hover:bg-amber-600':
+            selectedTag == tag,
+        }"
         @click="selectedTag = selectedTag != tag ? tag : null"
       >
         {{ tag }}

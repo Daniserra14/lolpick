@@ -4,12 +4,6 @@ export default {
     return {
       //TODO: Make it a computed property
       newChampionScore: this.championScore,
-      // scoreColors:
-      // bg-red-200 bg-red-600
-      // bg-orange-200 bg-orange-600
-      // bg-yellow-200 bg-yellow-600
-      // bg-lime-200 bg-lime-600
-      // bg-green-200 bg-green-600
     };
   },
   props: {
@@ -22,6 +16,9 @@ export default {
       this.newChampionScore[position] = positionScore;
 
       this.$emit("updateSelectedChampionScore", this.newChampionScore);
+    },
+    closeModal() {
+      this.$emit("removeSelectedChampion");
     },
   },
 };
@@ -52,10 +49,12 @@ export default {
     >
       <div class="relative m-auto h-full w-full max-w-2xl p-4 md:h-auto">
         <!-- Modal content -->
-        <div class="relative rounded-lg bg-white shadow dark:bg-gray-700">
+        <div
+          class="relative rounded-lg bg-white shadow dark:border-2 dark:border-slate-500 dark:bg-slate-900"
+        >
           <!-- Modal header -->
           <div
-            class="flex items-start justify-between rounded-t border-b p-4 dark:border-gray-600"
+            class="flex items-start justify-between rounded-t border-b py-4 px-6 dark:border-gray-600"
           >
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
               {{ championName }}
@@ -64,7 +63,7 @@ export default {
               type="button"
               class="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
               data-modal-toggle="defaultModal"
-              @click="$emit('removeSelectedChampion')"
+              @click="closeModal()"
             >
               <svg
                 aria-hidden="true"
