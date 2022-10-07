@@ -11,7 +11,8 @@
   "dependencies": {
     "core-js": "^3.24.1",
     "vue": "^3.2.13",
-    "vue-class-component": "^8.0.0-0"
+    "vue-class-component": "^8.0.0-0",
+    "vue-router": "^4.0.13"
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",
@@ -46,7 +47,9 @@
     "parserOptions": {
       "parser": "@typescript-eslint/parser"
     },
-    "rules": {}
+    "rules": {
+      "vue/multi-word-component-names": "off"
+    }
   },
   "prettier": {},
   "browserslist": [
