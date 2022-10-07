@@ -143,7 +143,7 @@ export default {
 </script>
 
 <template>
-  <h1 class="my-5 text-center text-3xl dark:text-amber-600">LolPick</h1>
+  <h1 class="my-5 text-center text-3xl text-amber-800 font-bold dark:text-amber-600">LolPick</h1>
   <div>
     <p v-if="newVersion && version">
       <span class="text-xl text-red-500">New version!</span>

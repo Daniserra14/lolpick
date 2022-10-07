@@ -94,7 +94,7 @@ export default {
               :key="position"
               v-for="position in Object.keys(championScore)"
             >
-              <p class="mb-2 text-white">{{ position }}</p>
+              <p class="mb-2 text-black dark:text-white">{{ position }}</p>
               <div class="grid grid-cols-5 gap-2">
                 <button
                   v-for="(color, index) in scoreColors"
@@ -104,7 +104,7 @@ export default {
                       ? `bg-${color}-600`
                       : `bg-${color}-200`) + ` hover:bg-${color}-600`
                   "
-                  class="rounded-lg border border-gray-200 px-5 py-2.5 text-sm font-bold text-black"
+                  class="rounded-lg border border-gray-200 px-5 py-2.5 text-sm font-bold text-black hover:shadow dark:hover:shadow-gray-300"
                   @click="updateCurrentChampionScore(position, index + 1)"
                 >
                   {{ index + 1 }}
