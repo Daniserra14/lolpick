@@ -4,6 +4,12 @@ export default {
     return {
       //TODO: Make it a computed property
       newChampionScore: this.championScore,
+      // scoreColors:
+      // bg-red-200 bg-red-600
+      // bg-orange-200 bg-orange-600
+      // bg-yellow-200 bg-yellow-600
+      // bg-lime-200 bg-lime-600
+      // bg-green-200 bg-green-600
     };
   },
   props: {
