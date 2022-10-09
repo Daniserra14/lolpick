@@ -62,7 +62,7 @@ export default {
         class="ml-auto rounded-lg p-2.5 text-sm text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
       >
         <svg
-          v-if="isDarkMode"
+          v-if="!isDarkMode"
           id="theme-toggle-dark-icon"
           class="h-5 w-5"
           fill="currentColor"
