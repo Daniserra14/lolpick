@@ -143,26 +143,29 @@ export default {
 </script>
 
 <template>
-  <h1 class="my-5 text-center text-3xl text-amber-800 font-bold dark:text-amber-600">LolPick</h1>
-  <div>
-    <p v-if="newVersion && version">
-      <span class="text-xl text-red-500">New version!</span>
-      {{ version }} -> {{ newVersion }}
-    </p>
-    <p v-else>Version: {{ version || newVersion }}</p>
-  </div>
-  <div class="my-4" v-if="newChampions.length && version">
-    <span v-if="newChampions.length == 1" class="text-xl text-red-500">
-      New champion!
-    </span>
-    <span v-else class="text-xl text-red-500">New champions!</span>
-    <div class="mt-2 flex flex-wrap gap-2">
-      <div v-for="newChampion in newChampions" :key="newChampion">
-        <img :src="newChampion.image" :alt="newChampion.name" />
-        <span>{{ newChampion.name }}</span>
+  <section class="text-center">
+    <img src="logo.png" alt="LOL" loading="lazy" class="w-60 mx-auto" />
+    <h1 class="my-5 text-3xl text-amber-800 font-bold dark:text-amber-600">Pick</h1>
+    <div>
+      <p v-if="newVersion && version">
+        <span class="text-xl text-red-500">New version!</span>
+        {{ version }} -> {{ newVersion }}
+      </p>
+      <p v-else>Version: {{ version || newVersion }}</p>
+    </div>
+    <div class="my-4" v-if="newChampions.length && version">
+      <span v-if="newChampions.length == 1" class="text-xl text-red-500">
+        New champion!
+      </span>
+      <span v-else class="text-xl text-red-500">New champions!</span>
+      <div class="mt-2 flex flex-wrap gap-2">
+        <div v-for="newChampion in newChampions" :key="newChampion">
+          <img :src="newChampion.image" :alt="newChampion.name" />
+          <span>{{ newChampion.name }}</span>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
   <form class="my-3 flex items-center px-2">
     <label for="simple-search" class="sr-only">Search</label>
     <div class="relative w-full">
