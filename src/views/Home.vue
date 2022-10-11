@@ -163,7 +163,7 @@ export default {
       </div>
     </div>
   </div>
-  <form class="my-3 flex items-center">
+  <form class="my-3 flex items-center px-2">
     <label for="simple-search" class="sr-only">Search</label>
     <div class="relative w-full">
       <div
@@ -212,7 +212,7 @@ export default {
       </button>
     </div>
   </form>
-  <div id="tags" class="flex justify-center gap-3">
+  <div id="tags" class="flex justify-center gap-3 px-2">
     <button
       v-for="tag in availableTags"
       :key="tag"
@@ -226,11 +226,11 @@ export default {
       {{ tag }}
     </button>
   </div>
-  <div id="championList" class="my-4 grid grid-cols-2 gap-4 md:grid-cols-8">
+  <div id="championList" class="my-4 px-2 grid grid-cols-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
     <div
       v-for="champion in championList"
       :key="champion.id"
-      class="champion h-[120px] w-[120px] cursor-pointer bg-cover transition-all duration-300 hover:scale-110 hover:shadow-xl"
+      class="champion w-full aspect-square cursor-pointer bg-cover transition-all duration-300 hover:scale-110 hover:shadow-xl"
       :style="composeCSSBgImg(champion.image)"
       @click="selectedChampionId = champion.id"
     >
