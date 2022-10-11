@@ -182,7 +182,18 @@ export default {
       {{ tag }}
     </button>
   </div>
-  <div id="championList" class="my-4 grid grid-cols-2 gap-4 md:grid-cols-8">
+  <div
+    id="championList"
+    class="
+      my-4
+      px-2
+      grid grid-cols-4
+      sm:grid-cols-4
+      md:grid-cols-6
+      lg:grid-cols-8
+      gap-4
+    "
+  >
     <div
       v-for="champion in championList"
       :key="champion.id"
