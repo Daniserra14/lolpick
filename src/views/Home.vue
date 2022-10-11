@@ -143,27 +143,30 @@ export default {
 </script>
 
 <template>
-  <h1 class="my-5 text-center text-3xl text-amber-800 font-bold dark:text-amber-600">LolPick</h1>
-  <div>
-    <p v-if="newVersion && version">
-      <span class="text-xl text-red-500">New version!</span>
-      {{ version }} -> {{ newVersion }}
-    </p>
-    <p v-else>Version: {{ version || newVersion }}</p>
-  </div>
-  <div class="my-4" v-if="newChampions.length && version">
-    <span v-if="newChampions.length == 1" class="text-xl text-red-500">
-      New champion!
-    </span>
-    <span v-else class="text-xl text-red-500">New champions!</span>
-    <div class="mt-2 flex flex-wrap gap-2">
-      <div v-for="newChampion in newChampions" :key="newChampion">
-        <img :src="newChampion.image" :alt="newChampion.name" />
-        <span>{{ newChampion.name }}</span>
+  <section class="text-center">
+    <img src="logo.png" alt="LOL" loading="lazy" class="w-60 mx-auto" />
+    <h1 class="my-5 text-3xl text-amber-800 font-bold dark:text-amber-600">Pick</h1>
+    <div>
+      <p v-if="newVersion && version">
+        <span class="text-xl text-red-500">New version!</span>
+        {{ version }} -> {{ newVersion }}
+      </p>
+      <p v-else>Version: {{ version || newVersion }}</p>
+    </div>
+    <div class="my-4" v-if="newChampions.length && version">
+      <span v-if="newChampions.length == 1" class="text-xl text-red-500">
+        New champion!
+      </span>
+      <span v-else class="text-xl text-red-500">New champions!</span>
+      <div class="mt-2 flex flex-wrap gap-2">
+        <div v-for="newChampion in newChampions" :key="newChampion">
+          <img :src="newChampion.image" :alt="newChampion.name" />
+          <span>{{ newChampion.name }}</span>
+        </div>
       </div>
     </div>
-  </div>
-  <form class="my-3 flex items-center">
+  </section>
+  <form class="my-3 flex items-center px-2">
     <label for="simple-search" class="sr-only">Search</label>
     <div class="relative w-full">
       <div
@@ -212,7 +215,7 @@ export default {
       </button>
     </div>
   </form>
-  <div id="tags" class="flex justify-center gap-3">
+  <div id="tags" class="flex justify-center gap-3 px-2">
     <button
       v-for="tag in availableTags"
       :key="tag"
@@ -226,11 +229,11 @@ export default {
       {{ tag }}
     </button>
   </div>
-  <div id="championList" class="my-4 grid grid-cols-2 gap-4 md:grid-cols-8">
+  <div id="championList" class="my-4 px-2 grid grid-cols-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
     <div
       v-for="champion in championList"
       :key="champion.id"
-      class="champion h-[120px] w-[120px] cursor-pointer bg-cover transition-all duration-300 hover:scale-110 hover:shadow-xl"
+      class="champion w-full aspect-square cursor-pointer bg-cover transition-all duration-300 hover:scale-110 hover:shadow-xl"
       :style="composeCSSBgImg(champion.image)"
       @click="selectedChampionId = champion.id"
     >
