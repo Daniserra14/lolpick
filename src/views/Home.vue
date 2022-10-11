@@ -1,5 +1,6 @@
 <script>
 import PickerModal from "@/components/pickerModal.vue";
+import Champion from "@/components/champion.vue";
 import { lolpick } from "@/state/lolpick";
 
 export default {
@@ -138,7 +139,7 @@ export default {
       });
     });
   },
-  components: { PickerModal },
+  components: { PickerModal, Champion },
 };
 </script>
 
@@ -234,14 +235,7 @@ export default {
       :style="composeCSSBgImg(champion.image)"
       @click="selectedChampionId = champion.id"
     >
-      <div
-        class="flex h-full items-end justify-center border-4"
-        :class="getChampionBorderColorClass(champion)"
-      >
-        <span class="w-full bg-black/60 text-center text-white">{{
-          champion.name
-        }}</span>
-      </div>
+      <Champion :champion="champion" />
     </div>
   </div>
   <div v-if="championList.length == 0" class="mt-32">
