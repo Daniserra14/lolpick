@@ -2,6 +2,9 @@
 import PickerModal from "@/components/pickerModal.vue";
 import Search from "@/components/search.vue";
 import Champion from "@/components/champion.vue";
+
+import { fetchChampionList, fetchLastVersion } from "@/services/fetch";
+
 import { lolpick } from "@/state/lolpick";
 
 export default {
@@ -76,35 +79,6 @@ export default {
     },
   },
   methods: {
-    async fetchLastVersion() {
-      const versionResponse = await fetch(this.ddragonRoutes.versions);
-      const versions = await versionResponse.json();
-
-      const version = versions[0];
-      // this.version = version;
-
-      if (this.version != version) {
-        this.newVersion = version;
-        localStorage.setItem("version", version);
-        lolpick.version = version;
-      } else {
-        this.version = version;
-      }
-
-      // update ddragon routes with latest version
-      Object.keys(this.ddragonRoutes).forEach((key) => {
-        this.ddragonRoutes[key] = this.ddragonRoutes[key].replace(
-          "{version}",
-          version
-        );
-      });
-    },
-    async fetchChampionList() {
-      const championsResponse = await fetch(this.ddragonRoutes.champions);
-      const champions = (await championsResponse.json()).data;
-      console.log("champions", champions);
-      this.rawChampionList = champions;
-    },
     composeCSSBgImg(image) {
       return `background-image: url('${image}')`;
     },
@@ -121,8 +95,27 @@ export default {
     },
   },
   async created() {
-    await this.fetchLastVersion();
-    await this.fetchChampionList();
+    const version = await fetchLastVersion(this.ddragonRoutes.versions);
+
+    if (this.version != version) {
+      this.newVersion = version;
+      localStorage.setItem("version", version);
+      lolpick.version = version;
+    } else {
+      this.version = version;
+    }
+
+    // update ddragon routes with latest version
+    Object.keys(this.ddragonRoutes).forEach((key) => {
+      this.ddragonRoutes[key] = this.ddragonRoutes[key].replace(
+        "{version}",
+        version
+      );
+    });
+
+    this.rawChampionList = await fetchChampionList(
+      this.ddragonRoutes.champions
+    );
     // Create filter tags list
     Object.values(this.rawChampionList).forEach((champion) => {
       Object.values(champion.tags).forEach((tag) => {
@@ -137,7 +130,16 @@ export default {
 </script>
 
 <template>
-  <h1 class="my-5 text-center text-3xl text-amber-800 font-bold dark:text-amber-600">LolPick</h1>
+  <h1
+    class="
+      my-5
+      text-center text-3xl text-amber-800
+      font-bold
+      dark:text-amber-600
+    "
+  >
+    LolPick
+  </h1>
   <div>
     <p v-if="newVersion && version">
       <span class="text-xl text-red-500">New version!</span>
@@ -162,7 +164,15 @@ export default {
     <button
       v-for="tag in availableTags"
       :key="tag"
-      class="w-24 select-none rounded-full border border-black py-1 hover:bg-slate-100 dark:hover:bg-neutral-600"
+      class="
+        w-24
+        select-none
+        rounded-full
+        border border-black
+        py-1
+        hover:bg-slate-100
+        dark:hover:bg-neutral-600
+      "
       :class="{
         'bg-amber-600 hover:bg-amber-600 dark:hover:bg-amber-600':
           selectedTag == tag,
@@ -176,7 +186,16 @@ export default {
     <div
       v-for="champion in championList"
       :key="champion.id"
-      class="champion h-[120px] w-[120px] cursor-pointer bg-cover transition-all duration-300 hover:scale-110 hover:shadow-xl"
+      class="
+        champion
+        h-[120px]
+        w-[120px]
+        cursor-pointer
+        bg-cover
+        transition-all
+        duration-300
+        hover:scale-110 hover:shadow-xl
+      "
       :style="composeCSSBgImg(champion.image)"
       @click="selectedChampionId = champion.id"
     >
