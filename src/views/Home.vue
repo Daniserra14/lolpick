@@ -116,17 +116,6 @@ export default {
         JSON.stringify(this.championScoreList)
       );
     },
-    getChampionBorderColorClass(champion) {
-      let maxChampionScore = Math.max(...Object.values(champion.score));
-      let color = this.scoreColors[maxChampionScore - 1];
-
-      //border-red-600
-      //border-orange-600
-      //border-yellow-600
-      //border-lime-600
-      //border-green-600
-      return color ? `border-${color}-600` : "";
-    },
     setSearch(value) {
       this.searchValue = value;
     },

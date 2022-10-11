@@ -8,6 +8,10 @@ export default {
     methods: {
         updateSearch() {
             this.$emit('search', this.search)
+        },
+        clearSearch() {
+            this.search = ''
+            this.$emit('search', this.search)
         }
     }
 }
@@ -44,7 +48,7 @@ export default {
       <button
         type="button"
         class="absolute inset-y-0 right-0 flex items-center pr-3"
-        @click="this.search = ''"
+        @click="clearSearch"
       >
         <svg
           class="h-6 w-6 text-gray-500 hover:text-gray-900"
