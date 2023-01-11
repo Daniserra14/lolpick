@@ -173,7 +173,7 @@ export default {
   </div>
   <div
     id="championList"
-    class="my-4 grid grid-cols-4 gap-4 px-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8"
+    class="my-4 grid grid-cols-3 gap-4 px-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8"
   >
     <div
       v-for="champion in championList"
