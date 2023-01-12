@@ -3,16 +3,15 @@ import PickerModal from "@/components/pickerModal.vue";
 import Search from "@/components/search.vue";
 import Champion from "@/components/champion.vue";
 
-import { fetchChampionList, fetchLastVersion } from "@/services/fetch";
-
-import lolVersion from "@/state/lolVersion";
+import { lolVersion, oldLolVersion } from "@/state/lolVersion";
+import { rawChampionList } from "@/state/champions";
 
 export default {
   name: "Home",
   data() {
     return {
       //champions
-      rawChampionList: {},
+      rawChampionList,
       championScoreList: JSON.parse(
         localStorage.getItem("championScoreList") || "{}"
       ),
@@ -27,15 +26,27 @@ export default {
       //search
       searchValue: "",
 
-      //new version
-      newVersion: false,
       newChampions: [],
+
+      // lolVersion
+      lolVersion,
+      oldLolVersion,
     };
+  },
+  async created() {
+    // Create filter tags list
+    Object.values(rawChampionList.value).forEach((champion) => {
+      Object.values(champion.tags).forEach((tag) => {
+        if (!this.availableTags.find((filterTag) => filterTag == tag)) {
+          this.availableTags.push(tag);
+        }
+      });
+    });
   },
   computed: {
     championList() {
       const championImgRoute = this.ddragonRoutes.championImg;
-      let championList = Object.values(this.rawChampionList)
+      let championList = Object.values(rawChampionList.value)
         .filter(
           (champion) =>
             this.selectedTag == null ||
@@ -91,37 +102,6 @@ export default {
       this.searchValue = value;
     },
   },
-  async created() {
-    const version = await fetchLastVersion(this.ddragonRoutes.versions);
-
-    if (this.version != version) {
-      this.newVersion = version;
-      localStorage.setItem("version", version);
-      lolVersion.value = version;
-    } else {
-      this.version = version;
-    }
-
-    // update ddragon routes with latest version
-    Object.keys(this.ddragonRoutes).forEach((key) => {
-      this.ddragonRoutes[key] = this.ddragonRoutes[key].replace(
-        "{version}",
-        version
-      );
-    });
-
-    this.rawChampionList = await fetchChampionList(
-      this.ddragonRoutes.champions
-    );
-    // Create filter tags list
-    Object.values(this.rawChampionList).forEach((champion) => {
-      Object.values(champion.tags).forEach((tag) => {
-        if (!this.availableTags.find((filterTag) => filterTag == tag)) {
-          this.availableTags.push(tag);
-        }
-      });
-    });
-  },
   components: { PickerModal, Search, Champion },
 };
 </script>
@@ -134,13 +114,13 @@ export default {
       LolPick
     </h1>
     <div>
-      <p v-if="newVersion && version">
+      <p v-if="oldLolVersion && oldLolVersion != lolVersion">
         <span class="text-xl text-red-500">New version!</span>
-        {{ version }} -> {{ newVersion }}
+        {{ oldLolVersion }} -> {{ lolVersion }}
       </p>
-      <p v-else>Version: {{ version || newVersion }}</p>
+      <p v-else>Version: {{ lolVersion }}</p>
     </div>
-    <div class="my-4" v-if="newChampions.length && version">
+    <div class="my-4" v-if="newChampions.length && lolVersion">
       <span v-if="newChampions.length == 1" class="text-xl text-red-500">
         New champion!
       </span>

@@ -1,9 +1,11 @@
 <script>
+import { rawChampionList } from "@/state/champions";
+
 export default {
   data() {
     return {
       //champions
-      rawChampionList: {},
+      rawChampionList,
       championScoreList: JSON.parse(
         localStorage.getItem("championScoreList") || "{}"
       ),
@@ -12,7 +14,7 @@ export default {
   computed: {
     championList() {
       const championImgRoute = this.ddragonRoutes.championImg;
-      let championList = Object.values(this.rawChampionList)
+      let championList = Object.values(rawChampionList.value)
         .filter(
           (champion) =>
             this.selectedTag == null ||

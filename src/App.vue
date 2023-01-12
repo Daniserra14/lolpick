@@ -1,16 +1,10 @@
 <script>
+import { fetchLastVersion, fetchChampionList } from "@/services/fetch";
+
+import { lolVersion, oldLolVersion } from "@/state/lolVersion";
+import { rawChampionList } from "@/state/champions";
+
 export default {
-  beforeCreate() {
-    if (
-      localStorage.getItem("color-theme") === "dark" ||
-      (!("color-theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  },
   data() {
     return {
       isDarkMode: document.documentElement.classList.contains("dark"),
@@ -29,6 +23,47 @@ export default {
         },
       ],
     };
+  },
+  async beforeCreate() {
+    if (
+      localStorage.getItem("color-theme") === "dark" ||
+      (!("color-theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+
+    // get version
+    const version = await fetchLastVersion(this.ddragonRoutes.versions);
+
+    oldLolVersion.value = localStorage.getItem("version");
+    lolVersion.value = version;
+
+    if (lolVersion != oldLolVersion) {
+      localStorage.setItem("version", lolVersion.value);
+    }
+
+    // update ddragon routes with latest version
+    Object.keys(this.ddragonRoutes).forEach((key) => {
+      this.ddragonRoutes[key] = this.ddragonRoutes[key].replace(
+        "{version}",
+        version
+      );
+    });
+
+    rawChampionList.value = await fetchChampionList(
+      this.ddragonRoutes.champions
+    );
+    // Create filter tags list
+    Object.values(rawChampionList.value).forEach((champion) => {
+      Object.values(champion.tags).forEach((tag) => {
+        if (!this.availableTags.find((filterTag) => filterTag == tag)) {
+          this.availableTags.push(tag);
+        }
+      });
+    });
   },
   methods: {
     setDarkMode(isDarkMode) {
