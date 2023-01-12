@@ -157,7 +157,7 @@ export default {
     </div>
   </section>
   <Search @search="setSearch" />
-  <div id="tags" class="flex justify-center gap-3 px-2">
+  <div id="tags" class="flex flex-wrap justify-center gap-3 px-2">
     <button
       v-for="tag in availableTags"
       :key="tag"
