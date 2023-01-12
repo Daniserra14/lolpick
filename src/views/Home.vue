@@ -5,15 +5,12 @@ import Champion from "@/components/champion.vue";
 
 import { fetchChampionList, fetchLastVersion } from "@/services/fetch";
 
-import { lolpick } from "@/state/lolpick";
+import lolVersion from "@/state/lolVersion";
 
 export default {
   name: "Home",
   data() {
     return {
-      lolpick: lolpick,
-      version: lolpick.version,
-
       //champions
       rawChampionList: {},
       championScoreList: JSON.parse(
@@ -100,7 +97,7 @@ export default {
     if (this.version != version) {
       this.newVersion = version;
       localStorage.setItem("version", version);
-      lolpick.version = version;
+      lolVersion.value = version;
     } else {
       this.version = version;
     }
