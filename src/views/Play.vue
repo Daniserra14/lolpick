@@ -1,17 +1,17 @@
 <script>
-import { lolpick } from "@/state/lolpick";
+import { lolVersion } from "@/state/lolVersion.js";
 
 export default {
   data() {
     return {
-      version: lolpick.version,
+      lolVersion,
     };
   },
 };
 </script>
 <template>
   <div>
-    {{ version }}
+    {{ lolVersion }}
     <div id="tags" class="flex justify-center gap-3">
       <button
         v-for="tag in availableTags"

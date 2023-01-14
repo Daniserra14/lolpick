@@ -5,6 +5,7 @@ import Champion from "@/components/champion.vue";
 
 import { lolVersion, oldLolVersion } from "@/state/lolVersion";
 import { rawChampionList } from "@/state/champions";
+import { ddragonRoutes } from "@/state/ddragonRoutes";
 
 export default {
   name: "Home",
@@ -17,7 +18,6 @@ export default {
       ),
 
       //tags
-      availableTags: [],
       selectedTag: null,
 
       // rating modal
@@ -33,19 +33,11 @@ export default {
       oldLolVersion,
     };
   },
-  async created() {
-    // Create filter tags list
-    Object.values(rawChampionList.value).forEach((champion) => {
-      Object.values(champion.tags).forEach((tag) => {
-        if (!this.availableTags.find((filterTag) => filterTag == tag)) {
-          this.availableTags.push(tag);
-        }
-      });
-    });
-  },
+  async created() {},
   computed: {
     championList() {
-      const championImgRoute = this.ddragonRoutes.championImg;
+      const championImgRoute = ddragonRoutes.championImg;
+
       let championList = Object.values(rawChampionList.value)
         .filter(
           (champion) =>
@@ -84,6 +76,18 @@ export default {
       }
 
       return championList;
+    },
+    availableTags() {
+      const availableTags = [];
+      Object.values(rawChampionList.value).forEach((champion) => {
+        Object.values(champion.tags).forEach((tag) => {
+          if (!availableTags.find((filterTag) => filterTag == tag)) {
+            availableTags.push(tag);
+          }
+        });
+      });
+
+      return availableTags;
     },
   },
   methods: {

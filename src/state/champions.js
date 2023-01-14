@@ -1,3 +1,3 @@
-import { reactive } from "vue";
+import { ref } from "vue";
 
-export const rawChampionList = reactive([]);
+export const rawChampionList = ref({});

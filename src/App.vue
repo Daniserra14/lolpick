@@ -3,6 +3,7 @@ import { fetchLastVersion, fetchChampionList } from "@/services/fetch";
 
 import { lolVersion, oldLolVersion } from "@/state/lolVersion";
 import { rawChampionList } from "@/state/champions";
+import { ddragonRoutes } from "@/state/ddragonRoutes";
 
 export default {
   data() {
@@ -36,7 +37,7 @@ export default {
     }
 
     // get version
-    const version = await fetchLastVersion(this.ddragonRoutes.versions);
+    const version = await fetchLastVersion(ddragonRoutes.versions);
 
     oldLolVersion.value = localStorage.getItem("version");
     lolVersion.value = version;
@@ -46,24 +47,11 @@ export default {
     }
 
     // update ddragon routes with latest version
-    Object.keys(this.ddragonRoutes).forEach((key) => {
-      this.ddragonRoutes[key] = this.ddragonRoutes[key].replace(
-        "{version}",
-        version
-      );
+    Object.keys(ddragonRoutes).forEach((key) => {
+      ddragonRoutes[key] = ddragonRoutes[key].replace("{version}", version);
     });
 
-    rawChampionList.value = await fetchChampionList(
-      this.ddragonRoutes.champions
-    );
-    // Create filter tags list
-    Object.values(rawChampionList.value).forEach((champion) => {
-      Object.values(champion.tags).forEach((tag) => {
-        if (!this.availableTags.find((filterTag) => filterTag == tag)) {
-          this.availableTags.push(tag);
-        }
-      });
-    });
+    rawChampionList.value = await fetchChampionList(ddragonRoutes.champions);
   },
   methods: {
     setDarkMode(isDarkMode) {
