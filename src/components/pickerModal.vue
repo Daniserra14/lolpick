@@ -1,4 +1,6 @@
 <script>
+import { updateChampionScore } from "@/state/champions";
+
 export default {
   data() {
     return {
@@ -21,7 +23,7 @@ export default {
     updateCurrentChampionScore(position, positionScore) {
       this.newChampionScore[position] = positionScore;
 
-      this.$emit("updateSelectedChampionScore", this.newChampionScore);
+      updateChampionScore(this.championId, this.newChampionScore);
     },
     closeModal() {
       this.$emit("removeSelectedChampion");

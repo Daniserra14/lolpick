@@ -1,10 +1,14 @@
 <script>
 import { lolVersion } from "@/state/lolVersion.js";
 
+import { availableTags } from "@/state/champions";
+
 export default {
   data() {
     return {
       lolVersion,
+      availableTags,
+      selectedTag: null,
     };
   },
 };
@@ -12,7 +16,7 @@ export default {
 <template>
   <div>
     {{ lolVersion }}
-    <div id="tags" class="flex justify-center gap-3">
+    <div id="tags" class="flex-wrap justify-center gap-3 px-2">
       <button
         v-for="tag in availableTags"
         :key="tag"

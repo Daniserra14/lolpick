@@ -2,7 +2,12 @@
 import { fetchLastVersion, fetchChampionList } from "@/services/fetch";
 
 import { lolVersion, oldLolVersion } from "@/state/lolVersion";
-import { rawChampionList } from "@/state/champions";
+import {
+  rawChampionList,
+  championScoreList,
+  updateChampionScore,
+  availableTags,
+} from "@/state/champions";
 import { ddragonRoutes } from "@/state/ddragonRoutes";
 
 export default {
@@ -52,6 +57,35 @@ export default {
     });
 
     rawChampionList.value = await fetchChampionList(ddragonRoutes.champions);
+
+    // champion score list
+    championScoreList.value = JSON.parse(
+      localStorage.getItem("championScoreList") || "{}"
+    );
+
+    Object.values(rawChampionList.value).forEach((champion) => {
+      if (!championScoreList.value[champion.id]) {
+        // this.newChampions.push({
+        //   name: champion.name,
+        //   image: ddragonRoutes.championImg + champion.image.full,
+        // });
+
+        updateChampionScore(champion.id, {
+          top: 0,
+          jungle: 0,
+          mid: 0,
+          bottom: 0,
+          support: 0,
+        });
+      }
+
+      // available tags
+      Object.values(champion.tags).forEach((tag) => {
+        if (!availableTags.value.find((filterTag) => filterTag == tag)) {
+          availableTags.value.push(tag);
+        }
+      });
+    });
   },
   methods: {
     setDarkMode(isDarkMode) {

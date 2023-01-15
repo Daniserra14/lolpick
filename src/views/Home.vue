@@ -4,7 +4,11 @@ import Search from "@/components/search.vue";
 import Champion from "@/components/champion.vue";
 
 import { lolVersion, oldLolVersion } from "@/state/lolVersion";
-import { rawChampionList } from "@/state/champions";
+import {
+  rawChampionList,
+  championScoreList,
+  availableTags,
+} from "@/state/champions";
 import { ddragonRoutes } from "@/state/ddragonRoutes";
 
 export default {
@@ -13,11 +17,10 @@ export default {
     return {
       //champions
       rawChampionList,
-      championScoreList: JSON.parse(
-        localStorage.getItem("championScoreList") || "{}"
-      ),
+      championScoreList,
 
       //tags
+      availableTags,
       selectedTag: null,
 
       // rating modal
@@ -35,6 +38,9 @@ export default {
   },
   async created() {},
   computed: {
+    showNewVersion() {
+      return this.oldLolVersion && this.oldLolVersion != this.lolVersion;
+    },
     championList() {
       const championImgRoute = ddragonRoutes.championImg;
 
@@ -45,19 +51,19 @@ export default {
             champion.tags.find((tag) => tag == this.selectedTag)
         )
         .map((champion) => {
-          if (!this.championScoreList[champion.id]) {
+          if (!championScoreList.value[champion.id]) {
             this.newChampions.push({
               name: champion.name,
               image: championImgRoute + champion.image.full,
             });
 
-            this.updateChampionScore(champion.id, {
-              top: 0,
-              jungle: 0,
-              mid: 0,
-              bottom: 0,
-              support: 0,
-            });
+            // this.updateChampionScore(champion.id, {
+            //   top: 0,
+            //   jungle: 0,
+            //   mid: 0,
+            //   bottom: 0,
+            //   support: 0,
+            // });
           }
 
           return {
@@ -65,7 +71,7 @@ export default {
             name: champion.name,
             image: championImgRoute + champion.image.full,
             tags: champion.tags,
-            score: this.championScoreList[champion.id],
+            score: championScoreList.value[champion.id],
           };
         });
 
@@ -77,31 +83,19 @@ export default {
 
       return championList;
     },
-    availableTags() {
-      const availableTags = [];
-      Object.values(rawChampionList.value).forEach((champion) => {
-        Object.values(champion.tags).forEach((tag) => {
-          if (!availableTags.find((filterTag) => filterTag == tag)) {
-            availableTags.push(tag);
-          }
-        });
-      });
-
-      return availableTags;
-    },
   },
   methods: {
     composeCSSBgImg(image) {
       return `background-image: url('${image}')`;
     },
-    updateChampionScore(champion, score) {
-      this.championScoreList[champion] = score;
+    // updateChampionScore(champion, score) {
+    //   championScoreList.value[champion] = score;
 
-      localStorage.setItem(
-        "championScoreList",
-        JSON.stringify(this.championScoreList)
-      );
-    },
+    //   localStorage.setItem(
+    //     "championScoreList",
+    //     JSON.stringify(championScoreList.value)
+    //   );
+    // },
     setSearch(value) {
       this.searchValue = value;
     },
@@ -118,13 +112,13 @@ export default {
       LolPick
     </h1>
     <div>
-      <p v-if="oldLolVersion && oldLolVersion != lolVersion">
+      <p v-if="showNewVersion">
         <span class="text-xl text-red-500">New version!</span>
         {{ oldLolVersion }} -> {{ lolVersion }}
       </p>
       <p v-else>Version: {{ lolVersion }}</p>
     </div>
-    <div class="my-4" v-if="newChampions.length && lolVersion">
+    <div class="my-4" v-if="showNewVersion && newChampions.length">
       <span v-if="newChampions.length == 1" class="text-xl text-red-500">
         New champion!
       </span>
@@ -175,8 +169,5 @@ export default {
     :championId="selectedChampionId"
     :championName="rawChampionList[selectedChampionId].name"
     @remove-selected-champion="selectedChampionId = null"
-    @update-selected-champion-score="
-      (score) => updateChampionScore(selectedChampionId, score)
-    "
   />
 </template>
