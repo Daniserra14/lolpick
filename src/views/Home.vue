@@ -7,6 +7,7 @@ import { lolVersion, oldLolVersion } from "@/state/lolVersion";
 import {
   rawChampionList,
   championScoreList,
+  getFormattedChampion,
   availableTags,
 } from "@/state/champions";
 import { ddragonRoutes } from "@/state/ddragonRoutes";
@@ -66,13 +67,7 @@ export default {
             // });
           }
 
-          return {
-            id: champion.id,
-            name: champion.name,
-            image: championImgRoute + champion.image.full,
-            tags: champion.tags,
-            score: championScoreList.value[champion.id],
-          };
+          return getFormattedChampion(champion);
         });
 
       if (this.searchValue != "") {
