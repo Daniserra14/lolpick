@@ -1,6 +1,8 @@
 <script>
 import { rawChampionList } from "@/state/champions";
 
+import Versiontest from "@/components/versiontest.vue";
+
 export default {
   data() {
     return {
@@ -54,8 +56,10 @@ export default {
       return championList;
     },
   },
+  components: { Versiontest },
 };
 </script>
 <template>
   <h1>Rate Page</h1>
+  <Versiontest />
 </template>
