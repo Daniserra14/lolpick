@@ -14,8 +14,11 @@ export default {
   data() {
     return {
       lolVersion,
+
+      // tags
       availableTags,
       selectedTag: null,
+      showTags: false,
 
       // position
       selectedPosition: "top",
@@ -32,6 +35,9 @@ export default {
   },
   watch: {
     selectedPosition() {
+      this.updateChampionList();
+    },
+    selectedTag() {
       this.updateChampionList();
     },
   },
@@ -89,9 +95,38 @@ export default {
 <template>
   <div>
     {{ lolVersion }}
-    <div id="tags" class="mb-4 gap-3 px-2">
-      <p class="mb-3 text-center capitalize">Tags</p>
+    <div id="positions" class="mb-10 gap-3 px-2">
+      <p class="mb-3 text-center capitalize">Position</p>
       <div class="flex flex-wrap justify-center gap-2">
+        <button
+          v-for="position in ['top', 'jungle', 'mid', 'bottom', 'support']"
+          :key="position"
+          class="w-24 select-none rounded-full border border-black py-1 capitalize hover:bg-slate-100 dark:hover:bg-neutral-600"
+          :class="{
+            'bg-amber-600 hover:bg-amber-600 dark:hover:bg-amber-600':
+              selectedPosition == position,
+          }"
+          @click="selectedPosition = position"
+        >
+          {{ position }}
+        </button>
+      </div>
+    </div>
+    <div id="tags" class="mb-7 gap-3 px-2">
+      <div class="flex flex-wrap justify-center">
+        <button
+          type="button"
+          class="mb-2 mb-4 rounded-lg border border-amber-600 px-5 py-2.5 text-center text-sm font-medium text-amber-600 hover:bg-amber-600 hover:text-white dark:border-amber-500 dark:text-amber-500 dark:hover:bg-amber-600 dark:hover:text-white"
+          :class="{
+            'bg-amber-600 text-white dark:bg-amber-900 dark:text-white dark:hover:bg-amber-600':
+              showTags || selectedTag != null,
+          }"
+          @click="showTags = !showTags"
+        >
+          Filter by tag
+        </button>
+      </div>
+      <div v-show="showTags" class="flex flex-wrap justify-center gap-2">
         <button
           v-for="tag in availableTags"
           :key="tag"
@@ -106,38 +141,31 @@ export default {
         </button>
       </div>
     </div>
-    <div id="positions" class="mb-4 gap-3 px-2">
-      <p class="mb-3 text-center capitalize">Position</p>
-      <div class="flex flex-wrap justify-center gap-2">
-        <button
-          v-for="position in ['top', 'jungle', 'mid', 'bottom', 'support']"
-          :key="position"
-          class="w-24 select-none rounded-full border border-black py-1 capitalize hover:bg-slate-100 dark:hover:bg-neutral-600"
-          :class="{
-            'bg-amber-600 hover:bg-amber-600 dark:hover:bg-amber-600':
-              selectedPosition == position,
-          }"
-          @click="
-            selectedPosition = selectedPosition != position ? position : null
-          "
-        >
-          {{ position }}
-        </button>
+
+    <div class="my-8 px-2">
+      <div class="grid grid-flow-col grid-cols-6">
+        <span class="col-span-1 text-center">Rating</span>
+        <span class="col-span-5 text-center">Champions</span>
       </div>
-    </div>
-    <div class="my-4 px-2">
       <div
         v-for="score in availableScores"
         :key="score"
-        class="border-b-1 mb-4 grid grid-cols-3 gap-4 px-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8"
+        class="mt-4 border-t border-slate-400 pt-4"
       >
-        <div
-          v-for="champion in getChampionsByScore(score)"
-          :key="champion.id"
-          class="aspect-square w-full cursor-pointer bg-cover transition-all duration-300 hover:scale-110 hover:shadow-xl"
-          :style="composeCSSBgImg(champion.image)"
-        >
-          <Champion :champion="champion" :score="score" />
+        <div class="grid grid-flow-col grid-cols-6">
+          <span class="col-span-1 flex justify-center pt-8">{{ score }}</span>
+          <div
+            class="col-span-5 grid grid-cols-3 gap-4 px-6 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8"
+          >
+            <div
+              v-for="champion in getChampionsByScore(score)"
+              :key="champion.id"
+              class="aspect-square w-full cursor-pointer bg-cover transition-all duration-300 hover:scale-110 hover:shadow-xl"
+              :style="composeCSSBgImg(champion.image)"
+            >
+              <Champion :champion="champion" :score="score" />
+            </div>
+          </div>
         </div>
       </div>
     </div>

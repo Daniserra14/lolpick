@@ -6,11 +6,14 @@ export default {
       type: Object,
       required: true,
     },
-    score: String,
+    score: Number,
   },
   methods: {
     getChampionBorderColorClass(champion, score) {
-      score = score || Math.max(...Object.values(champion.score));
+      score =
+        score !== undefined
+          ? score
+          : Math.max(...Object.values(champion.score));
       let color = this.scoreColors[score - 1];
 
       //border-red-600
