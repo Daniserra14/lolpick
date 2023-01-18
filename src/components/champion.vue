@@ -6,11 +6,15 @@ export default {
       type: Object,
       required: true,
     },
+    score: Number,
   },
   methods: {
-    getChampionBorderColorClass(champion) {
-      let maxChampionScore = Math.max(...Object.values(champion.score));
-      let color = this.scoreColors[maxChampionScore - 1];
+    getChampionBorderColorClass(champion, score) {
+      score =
+        score !== undefined
+          ? score
+          : Math.max(...Object.values(champion.score));
+      let color = this.scoreColors[score - 1];
 
       //border-red-600
       //border-orange-600
@@ -25,7 +29,7 @@ export default {
 <template>
   <div
     class="flex h-full items-end justify-center border-4"
-    :class="getChampionBorderColorClass(champion)"
+    :class="getChampionBorderColorClass(champion, score)"
   >
     <span class="w-full bg-black/60 text-center text-white">{{
       champion.name

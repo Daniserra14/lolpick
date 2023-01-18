@@ -23,10 +23,10 @@ export default {
           url: "/play",
           name: "Play",
         },
-        {
-          url: "/rate",
-          name: "Rate",
-        },
+        // {
+        //   url: "/rate",
+        //   name: "Rate",
+        // },
       ],
     };
   },
