@@ -104,14 +104,14 @@ export default {
 </script>
 <template>
   <div class="container mx-auto min-h-screen dark:text-white px-2">
-    <div id="nav" class="container mx-auto flex gap-2 py-4 dark:text-white">
+    <div id="nav" class="flex gap-2 py-4 dark:text-white">
       <router-link
         v-for="navLink in navLinks"
         :key="navLink"
-        class="box-content w-12 rounded-lg border border-transparent p-2 text-center shadow-sm transition-all duration-300 dark:hover:shadow-indigo-300"
+        class="box-content w-12 rounded-lg border-b border-slate-700 p-2 text-center shadow-sm transition-all duration-300 dark:hover:shadow-indigo-300"
         :to="navLink.url"
-        >{{ navLink.name }}</router-link
-      >
+        >{{ navLink.name }}
+      </router-link>
       <button
         @click="setDarkMode(!isDarkMode)"
         id="theme-toggle"
