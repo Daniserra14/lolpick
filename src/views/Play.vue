@@ -153,7 +153,11 @@ export default {
         class="mt-4 border-t border-slate-400 pt-4"
       >
         <div class="grid grid-flow-col grid-cols-6">
-          <span class="col-span-1 flex justify-center pt-8">{{ score }}</span>
+          <div class="col-span-1 text-center relative">
+            <span class="sticky top-5">
+              Tier {{ score }}
+            </span>
+          </div>
           <div
             class="col-span-5 grid grid-cols-3 gap-4 px-6 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8"
           >
