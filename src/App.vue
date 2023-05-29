@@ -103,7 +103,7 @@ export default {
 };
 </script>
 <template>
-  <div class="container mx-auto min-h-screen dark:text-white">
+  <div class="container mx-auto min-h-screen dark:text-white px-2">
     <div id="nav" class="container mx-auto flex gap-2 py-4 dark:text-white">
       <router-link
         v-for="navLink in navLinks"

@@ -95,7 +95,7 @@ export default {
 <template>
   <div>
     {{ lolVersion }}
-    <div id="positions" class="mb-10 gap-3 px-2">
+    <div id="positions" class="mb-10 gap-3">
       <p class="mb-3 text-center capitalize">Position</p>
       <div class="flex flex-wrap justify-center gap-2">
         <button
@@ -112,7 +112,7 @@ export default {
         </button>
       </div>
     </div>
-    <div id="tags" class="mb-7 gap-3 px-2">
+    <div id="tags" class="mb-7 gap-3">
       <div class="flex flex-wrap justify-center">
         <button
           type="button"
@@ -142,7 +142,7 @@ export default {
       </div>
     </div>
 
-    <div class="my-8 px-2">
+    <div class="my-8">
       <div class="grid grid-flow-col grid-cols-6">
         <span class="col-span-1 text-center">Rating</span>
         <span class="col-span-5 text-center">Champions</span>
