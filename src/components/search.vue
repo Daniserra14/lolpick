@@ -41,7 +41,7 @@ export default {
         type="text"
         id="simple-search"
         class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
-        placeholder="Search"
+        placeholder="Champion name"
         v-model="this.search"
         @input="updateSearch"
       />
