@@ -116,7 +116,7 @@ export default {
       <div class="flex flex-wrap justify-center">
         <button
           type="button"
-          class="mb-2 mb-4 rounded-lg border border-amber-600 px-5 py-2.5 text-center text-sm font-medium text-amber-600 hover:bg-amber-600 hover:text-white dark:border-amber-500 dark:text-amber-500 dark:hover:bg-amber-600 dark:hover:text-white"
+          class="mb-2 rounded-lg border border-amber-600 px-5 py-2.5 text-center text-sm font-medium text-amber-600 hover:bg-amber-600 hover:text-white dark:border-amber-500 dark:text-amber-500 dark:hover:bg-amber-600 dark:hover:text-white"
           :class="{
             'bg-amber-600 text-white dark:bg-amber-900 dark:text-white dark:hover:bg-amber-600':
               showTags || selectedTag != null,
