@@ -108,7 +108,8 @@ export default {
       <router-link
         v-for="navLink in navLinks"
         :key="navLink"
-        class="box-content w-12 rounded-lg border-b border-slate-700 p-2 text-center shadow-sm transition-all duration-300 dark:hover:shadow-indigo-300"
+        class="box-content w-12 rounded-lg border-b border-slate-700 p-2 text-center shadow-sm transition-all duration-300 hover:bg-slate-200 dark:hover:bg-slate-700 dark:border-slate-700 dark:hover:border-slate-700"
+        active-class="shadow-black dark:shadow-indigo-300"
         :to="navLink.url"
         >{{ navLink.name }}
       </router-link>
