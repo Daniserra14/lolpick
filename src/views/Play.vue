@@ -30,10 +30,13 @@ export default {
       championList: {},
     };
   },
-  beforeMount() {
+  async created() {
     this.updateChampionList();
   },
   watch: {
+    rawChampionList() {
+      this.updateChampionList();
+    },
     selectedPosition() {
       this.updateChampionList();
     },
@@ -53,7 +56,7 @@ export default {
       return `background-image: url('${image}')`;
     },
     getChampionsByScore(score) {
-      return this.championList.filter((champion) => {
+      return Object.values(this.championList).filter((champion) => {
         return champion.score[this.selectedPosition] == score;
       });
     },
