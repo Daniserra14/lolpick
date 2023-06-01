@@ -53,9 +53,10 @@ export default {
       id="defaultModal"
       tabindex="-1"
       aria-hidden="true"
-      class="h-modal fixed top-0 right-0 left-0 z-50 w-full overflow-y-auto overflow-x-hidden md:inset-0 md:h-full"
+      class="h-modal fixed top-0 right-0 left-0 z-50 w-full overflow-y-auto overflow-x-hidden md:inset-0 h-full bg-black bg-opacity-50"
+      @click.self="closeModal()"
     >
-      <div class="relative m-auto h-full w-full max-w-2xl p-4 md:h-auto">
+      <div class="relative m-auto h-full w-full max-w-2xl p-4 md:h-auto" @click.self="closeModal()">
         <!-- Modal content -->
         <div
           class="relative rounded-lg bg-white shadow dark:border-2 dark:border-slate-500 dark:bg-slate-900"
