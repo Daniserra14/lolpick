@@ -1,5 +1,4 @@
 <script>
-import PickerModal from "@/components/pickerModal.vue";
 import Search from "@/components/search.vue";
 import Champion from "@/components/champion.vue";
 
@@ -23,9 +22,6 @@ export default {
       //tags
       availableTags,
       selectedTag: null,
-
-      // rating modal
-      selectedChampionId: null,
 
       //search
       searchValue: "",
@@ -95,7 +91,7 @@ export default {
       this.searchValue = value;
     },
   },
-  components: { PickerModal, Search, Champion },
+  components: { Search, Champion },
 };
 </script>
 
@@ -150,7 +146,6 @@ export default {
       :key="champion.id"
       class="champion aspect-square w-full cursor-pointer bg-cover transition-all duration-300 hover:scale-110 hover:shadow-xl"
       :style="composeCSSBgImg(champion.image)"
-      @click="selectedChampionId = champion.id"
     >
       <Champion :champion="champion" />
     </div>
@@ -158,11 +153,4 @@ export default {
   <div v-if="championList.length == 0" class="mt-32">
     <p class="text-center text-3xl">Who the **** is that!?</p>
   </div>
-  <PickerModal
-    v-if="selectedChampionId"
-    :championScore="championScoreList[selectedChampionId]"
-    :championId="selectedChampionId"
-    :championName="rawChampionList[selectedChampionId].name"
-    @remove-selected-champion="selectedChampionId = null"
-  />
 </template>

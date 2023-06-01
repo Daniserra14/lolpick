@@ -7,99 +7,93 @@ import {
   championScoreList,
   updateChampionScore,
   availableTags,
+  selectedChampionId
 } from "@/state/champions";
 import { ddragonRoutes } from "@/state/ddragonRoutes";
+import PickerModal from "./components/pickerModal.vue";
 
 export default {
-  data() {
-    return {
-      isDarkMode: document.documentElement.classList.contains("dark"),
-      navLinks: [
-        {
-          url: "/",
-          name: "Home",
-        },
-        {
-          url: "/play",
-          name: "Play",
-        },
-        // {
-        //   url: "/rate",
-        //   name: "Rate",
-        // },
-      ],
-    };
-  },
-  async beforeCreate() {
-    if (
-      localStorage.getItem("color-theme") === "dark" ||
-      (!("color-theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-
-    // get version
-    const version = await fetchLastVersion(ddragonRoutes.versions);
-
-    oldLolVersion.value = localStorage.getItem("version");
-    lolVersion.value = version;
-
-    if (lolVersion != oldLolVersion) {
-      localStorage.setItem("version", lolVersion.value);
-    }
-
-    // update ddragon routes with latest version
-    Object.keys(ddragonRoutes).forEach((key) => {
-      ddragonRoutes[key] = ddragonRoutes[key].replace("{version}", version);
-    });
-
-    rawChampionList.value = await fetchChampionList(ddragonRoutes.champions);
-
-    // champion score list
-    championScoreList.value = JSON.parse(
-      localStorage.getItem("championScoreList") || "{}"
-    );
-
-    Object.values(rawChampionList.value).forEach((champion) => {
-      if (!championScoreList.value[champion.id]) {
-        // this.newChampions.push({
-        //   name: champion.name,
-        //   image: ddragonRoutes.championImg + champion.image.full,
-        // });
-
-        updateChampionScore(champion.id, {
-          top: 0,
-          jungle: 0,
-          mid: 0,
-          bottom: 0,
-          support: 0,
-        });
-      }
-
-      // available tags
-      Object.values(champion.tags).forEach((tag) => {
-        if (!availableTags.value.find((filterTag) => filterTag == tag)) {
-          availableTags.value.push(tag);
-        }
-      });
-    });
-  },
-  methods: {
-    setDarkMode(isDarkMode) {
-      this.isDarkMode = isDarkMode;
-
-      if (isDarkMode) {
-        document.documentElement.classList.add("dark");
-        localStorage.setItem("color-theme", "dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-        localStorage.setItem("color-theme", "light");
-      }
+    data() {
+        return {
+            selectedChampionId,
+            isDarkMode: document.documentElement.classList.contains("dark"),
+            championScoreList,
+            rawChampionList,
+            navLinks: [
+                {
+                    url: "/",
+                    name: "Home",
+                },
+                {
+                    url: "/play",
+                    name: "Play",
+                },
+                // {
+                //   url: "/rate",
+                //   name: "Rate",
+                // },
+            ],
+        };
     },
-  },
+    async beforeCreate() {
+        if (localStorage.getItem("color-theme") === "dark" ||
+            (!("color-theme" in localStorage) &&
+                window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+            document.documentElement.classList.add("dark");
+        }
+        else {
+            document.documentElement.classList.remove("dark");
+        }
+        // get version
+        const version = await fetchLastVersion(ddragonRoutes.versions);
+        oldLolVersion.value = localStorage.getItem("version");
+        lolVersion.value = version;
+        if (lolVersion != oldLolVersion) {
+            localStorage.setItem("version", lolVersion.value);
+        }
+        // update ddragon routes with latest version
+        Object.keys(ddragonRoutes).forEach((key) => {
+            ddragonRoutes[key] = ddragonRoutes[key].replace("{version}", version);
+        });
+        rawChampionList.value = await fetchChampionList(ddragonRoutes.champions);
+        // champion score list
+        championScoreList.value = JSON.parse(localStorage.getItem("championScoreList") || "{}");
+        Object.values(rawChampionList.value).forEach((champion) => {
+            if (!championScoreList.value[champion.id]) {
+                // this.newChampions.push({
+                //   name: champion.name,
+                //   image: ddragonRoutes.championImg + champion.image.full,
+                // });
+                updateChampionScore(champion.id, {
+                    top: 0,
+                    jungle: 0,
+                    mid: 0,
+                    bottom: 0,
+                    support: 0,
+                });
+            }
+            // available tags
+            Object.values(champion.tags).forEach((tag) => {
+                if (!availableTags.value.find((filterTag) => filterTag == tag)) {
+                    availableTags.value.push(tag);
+                }
+            });
+        });
+    },
+    methods: {
+        setDarkMode(isDarkMode) {
+            this.isDarkMode = isDarkMode;
+            if (isDarkMode) {
+                document.documentElement.classList.add("dark");
+                localStorage.setItem("color-theme", "dark");
+            }
+            else {
+                document.documentElement.classList.remove("dark");
+                localStorage.setItem("color-theme", "light");
+            }
+        },
+    },
+    components: { PickerModal }
 };
 </script>
 <template>
@@ -148,5 +142,12 @@ export default {
       </button>
     </div>
     <router-view />
+    <PickerModal
+      v-if="selectedChampionId"
+      :championScore="championScoreList[selectedChampionId]"
+      :championId="selectedChampionId"
+      :championName="rawChampionList[selectedChampionId].name"
+      @remove-selected-champion="selectedChampionId = null"
+    />
   </div>
 </template>

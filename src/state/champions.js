@@ -5,6 +5,8 @@ export const rawChampionList = ref({});
 
 export let championScoreList = ref({});
 
+export const selectedChampionId = ref(null);
+
 export function updateChampionScore(championId, score) {
   championScoreList.value[championId] = score;
 
