@@ -21,6 +21,7 @@ export function getFormattedChampion(champion) {
     id: champion.id,
     name: champion.name,
     image: ddragonRoutes.championImg + champion.image.full,
+    fullBodyImage: ddragonRoutes.championLoadingImg + champion.id + "_0.jpg",
     tags: champion.tags,
     score: championScoreList.value[champion.id],
   };
