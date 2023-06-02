@@ -65,10 +65,14 @@ export default {
     >
       <div class="relative m-auto h-full w-full max-w-2xl p-4 md:h-auto" @click.self="closeModal()">
         <div
-          class="relative rounded-lg bg-white shadow dark:border-2 dark:border-slate-500 dark:bg-slate-900"
+          class="relative rounded-lg bg-white bg-contain shadow dark:border-2 dark:border-slate-500 dark:bg-slate-900"
         >
           <div
-            class="flex items-start justify-between rounded-t border-b py-4 px-6 dark:border-gray-600"
+          :style="{ backgroundImage: `url(${formattedChampion.fullBodyImage}), url(${formattedChampion.image})`}"
+            class="absolute inset-0 bg-cover bg-center rounded-lg opacity-20 blur"
+          ></div>
+          <div
+            class="flex items-start justify-between rounded-t border-b py-4 px-6 dark:border-gray-600 relative"
           >
             <img :src="formattedChampion.image" :alt="champion.name" class="aspect-square w-8 mr-2">
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
@@ -96,7 +100,7 @@ export default {
               <span class="sr-only">Close modal</span>
             </button>
           </div>
-          <div class="space-y-6 p-6">
+          <div class="space-y-6 p-6 relative">
             <div
               class="score-position"
               :key="position"
