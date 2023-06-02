@@ -14,6 +14,10 @@ export default {
       // bg-green-200 bg-green-600
     };
   },
+  mounted() {
+    // focus on dialog
+    this.$refs.dialog.focus();
+  },
   props: {
     championScore: Object,
     championId: String,
@@ -49,12 +53,14 @@ export default {
     <!-- <div class="modal-wrapper">
       <div class="modal">{{ championScore }}</div>
     </div> -->
-    <div
+    <v-dialog
       id="defaultModal"
       tabindex="-1"
       aria-hidden="true"
       class="h-modal fixed top-0 right-0 left-0 z-50 w-full overflow-y-auto overflow-x-hidden md:inset-0 h-full bg-black bg-opacity-50"
       @click.self="closeModal()"
+      @keydown.escape="closeModal()"
+      ref="dialog"
     >
       <div class="relative m-auto h-full w-full max-w-2xl p-4 md:h-auto" @click.self="closeModal()">
         <!-- Modal content -->
@@ -117,6 +123,6 @@ export default {
           </div>
         </div>
       </div>
-    </div>
+    </v-dialog>
   </Transition>
 </template>
