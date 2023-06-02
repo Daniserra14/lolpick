@@ -54,7 +54,7 @@ export default {
     <!-- <div class="modal-wrapper">
       <div class="modal">{{ championScore }}</div>
     </div> -->
-    <v-dialog
+    <div
       id="defaultModal"
       tabindex="-1"
       aria-hidden="true"
@@ -125,6 +125,6 @@ export default {
           </div>
         </div>
       </div>
-    </v-dialog>
+    </div>
   </Transition>
 </template>
