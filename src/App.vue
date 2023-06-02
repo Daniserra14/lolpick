@@ -145,8 +145,7 @@ export default {
     <PickerModal
       v-if="selectedChampionId"
       :championScore="championScoreList[selectedChampionId]"
-      :championId="selectedChampionId"
-      :championName="rawChampionList[selectedChampionId].name"
+      :champion="rawChampionList[selectedChampionId]"
       @remove-selected-champion="selectedChampionId = null"
     />
   </div>

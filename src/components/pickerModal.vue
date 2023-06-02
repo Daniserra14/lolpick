@@ -1,11 +1,13 @@
 <script>
-import { updateChampionScore } from "@/state/champions";
+import { updateChampionScore, getFormattedChampion } from "@/state/champions";
 
 export default {
   data() {
     return {
       //TODO: Make it a computed property
       newChampionScore: this.championScore,
+      formattedChampion: getFormattedChampion(this.champion),
+
       // scoreColors:
       // bg-red-200 bg-red-600
       // bg-orange-200 bg-orange-600
@@ -20,14 +22,13 @@ export default {
   },
   props: {
     championScore: Object,
-    championId: String,
-    championName: String,
+    champion: Object,
   },
   methods: {
     updateCurrentChampionScore(position, positionScore) {
       this.newChampionScore[position] = positionScore;
 
-      updateChampionScore(this.championId, this.newChampionScore);
+      updateChampionScore(this.champion.id, this.newChampionScore);
     },
     closeModal() {
       this.$emit("removeSelectedChampion");
@@ -71,8 +72,9 @@ export default {
           <div
             class="flex items-start justify-between rounded-t border-b py-4 px-6 dark:border-gray-600"
           >
+            <img :src="formattedChampion.image" :alt="champion.name" class="aspect-square w-8 mr-2">
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-              {{ championName }}
+              {{ champion.name }}
             </h3>
             <button
               type="button"
