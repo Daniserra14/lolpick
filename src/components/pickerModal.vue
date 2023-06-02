@@ -64,11 +64,9 @@ export default {
       ref="dialog"
     >
       <div class="relative m-auto h-full w-full max-w-2xl p-4 md:h-auto" @click.self="closeModal()">
-        <!-- Modal content -->
         <div
           class="relative rounded-lg bg-white shadow dark:border-2 dark:border-slate-500 dark:bg-slate-900"
         >
-          <!-- Modal header -->
           <div
             class="flex items-start justify-between rounded-t border-b py-4 px-6 dark:border-gray-600"
           >
@@ -98,7 +96,6 @@ export default {
               <span class="sr-only">Close modal</span>
             </button>
           </div>
-          <!-- Modal body -->
           <div class="space-y-6 p-6">
             <div
               class="score-position"
