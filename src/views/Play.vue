@@ -162,7 +162,7 @@ export default {
             </span>
           </div>
           <div
-            class="col-span-5 grid grid-cols-3 gap-4 px-6 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8"
+            class="col-span-5 grid grid-cols-2 gap-4 px-6 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8"
           >
             <div
               v-for="champion in getChampionsByScore(score)"
