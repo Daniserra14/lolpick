@@ -7,6 +7,7 @@ export default {
       //TODO: Make it a computed property
       newChampionScore: this.championScore,
       formattedChampion: getFormattedChampion(this.champion),
+      isRatePage: this.$router.currentRoute.value.path == "/rate",
 
       // scoreColors:
       // bg-red-200 bg-red-600
@@ -100,7 +101,7 @@ export default {
               <span class="sr-only">Close modal</span>
             </button>
           </div>
-          <div class="space-y-6 p-6 relative">
+          <div class="space-y-6 m-6 relative">
             <div
               class="score-position"
               :key="position"
@@ -123,6 +124,14 @@ export default {
                 </button>
               </div>
             </div>
+          </div>
+          <div v-if="isRatePage" class="m-6 text-right relative">
+            <button 
+              @click="closeModal()"
+              class="rounded-lg border border-gray-200 mt-3 px-3 py-2 text-sm"
+            >
+              Next champion
+            </button>
           </div>
         </div>
       </div>
