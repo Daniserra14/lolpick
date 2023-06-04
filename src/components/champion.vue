@@ -16,6 +16,9 @@ export default {
     score: Number,
   },
   methods: {
+    composeCSSBgImg(image) {
+      return `background-image: url('${image}')`;
+    },
     getChampionBorderColorClass(champion, score) {
       score =
         score !== undefined
@@ -37,13 +40,18 @@ export default {
 };
 </script>
 <template>
-  <div
-    class="flex h-full items-end justify-center border-4"
-    :class="getChampionBorderColorClass(champion, score)"
-    @click="selectChampion(champion.id)"
+  <article
+    class="champion aspect-square w-full cursor-pointer bg-cover transition-all duration-300 hover:scale-110 hover:shadow-xl"
+    :style="composeCSSBgImg(champion.image)"
   >
-    <span class="w-full bg-black/60 text-center text-white">{{
-      champion.name
-    }}</span>
-  </div>
+    <div
+      class="flex h-full items-end justify-center border-4"
+      :class="getChampionBorderColorClass(champion, score)"
+      @click="selectChampion(champion.id)"
+    >
+      <span class="w-full bg-black/60 text-center text-white">{{
+        champion.name
+      }}</span>
+    </div>
+  </article>
 </template>

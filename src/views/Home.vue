@@ -141,15 +141,12 @@ export default {
     id="championList"
     class="my-4 grid grid-cols-3 gap-4 px-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8"
   >
-    <div
-      v-for="champion in championList"
-      :key="champion.id"
-      class="champion aspect-square w-full cursor-pointer bg-cover transition-all duration-300 hover:scale-110 hover:shadow-xl"
-      :style="composeCSSBgImg(champion.image)"
-    >
-      <Champion :champion="champion" />
+      <Champion
+        v-for="champion in championList"
+        :key="champion.id"
+        :champion="champion"
+      />
     </div>
-  </div>
   <div v-if="championList.length == 0" class="mt-32">
     <p class="text-center text-3xl">Who the **** is that!?</p>
   </div>
