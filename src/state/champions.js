@@ -27,4 +27,12 @@ export function getFormattedChampion(champion) {
   };
 }
 
+export function getUnratedChampions() {
+  return Object.values(rawChampionList.value)
+    .map((champion) => getFormattedChampion(champion))
+    .filter((champion) => {
+      return Object.values(championScoreList.value[champion.id]).every((value) => value === 0);
+    });
+}
+
 export const availableTags = ref([]);
