@@ -1,65 +1,39 @@
 <script>
-import { rawChampionList } from "@/state/champions";
-
-import Versiontest from "@/components/versiontest.vue";
+import Champion from "@/components/champion.vue";
+import { getUnratedChampions } from "@/state/champions";
+import { championScoreList, rawChampionList, selectedChampionId } from "@/state/champions";
 
 export default {
-  data() {
-    return {
-      //champions
-      rawChampionList,
-      championScoreList: JSON.parse(
-        localStorage.getItem("championScoreList") || "{}"
-      ),
-    };
-  },
-  computed: {
-    championList() {
-      const championImgRoute = this.ddragonRoutes.championImg;
-      let championList = Object.values(rawChampionList.value)
-        .filter(
-          (champion) =>
-            this.selectedTag == null ||
-            champion.tags.find((tag) => tag == this.selectedTag)
-        )
-        .map((champion) => {
-          if (!this.championScoreList[champion.id]) {
-            this.newChampions.push({
-              name: champion.name,
-              image: championImgRoute + champion.image.full,
-            });
-
-            this.updateChampionScore(champion.id, {
-              top: 0,
-              jungle: 0,
-              mid: 0,
-              bottom: 0,
-              support: 0,
-            });
-          }
-
-          return {
-            id: champion.id,
-            name: champion.name,
-            image: championImgRoute + champion.image.full,
-            tags: champion.tags,
-            score: this.championScoreList[champion.id],
-          };
-        });
-
-      if (this.searchValue != "") {
-        championList = championList.filter((champion) =>
-          champion.name.toLowerCase().includes(this.searchValue.toLowerCase())
-        );
-      }
-
-      return championList;
+    data() {
+        return {
+            championScoreList,
+            rawChampionList,
+            selectedChampionId,
+            // unratedChampions: {},
+        };
     },
-  },
-  components: { Versiontest },
+    methods: {
+      // setUnratedChampions() {
+      //   const champions = Object.values(this.rawChampionList)
+      //                           .map((champion) => getFormattedChampion(champion))
+      //                           .filter((champion) => {
+      //                             return Object.values(this.championScoreList[champion.id]).every((value) => value === 0);
+      //                           });
+
+      //   this.unratedChampions = champions;
+      // },
+    },
+    computed: {
+      unratedChampions() {
+        return getUnratedChampions();
+      },
+    },
+    components: { Champion }
 };
 </script>
 <template>
-  <h1>Rate Page</h1>
-  <Versiontest />
+  <h1>Unrated champions:</h1>
+  <div class="my-4 grid grid-cols-3 gap-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
+    <Champion v-for="champion in unratedChampions" :key="champion.id" :champion="champion" />
+  </div>
 </template>
