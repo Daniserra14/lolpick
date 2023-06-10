@@ -1,12 +1,11 @@
 <script>
-import { updateChampionScore, getFormattedChampion } from "@/state/champions";
+import { updateChampionScore, getFormattedChampion, rawChampionList } from "@/state/champions";
 
 export default {
   data() {
     return {
-      //TODO: Make it a computed property
       newChampionScore: this.championScore,
-      formattedChampion: getFormattedChampion(this.champion),
+      formattedChampion: null,
       isRatePage: this.$router.currentRoute.value.path == "/rate",
 
       // scoreColors:
@@ -17,26 +16,34 @@ export default {
       // bg-green-200 bg-green-600
     };
   },
+  beforeMount() {
+    this.updateFormatedChampion()
+  },
   mounted() {
     // focus on dialog
     this.$refs.dialog.focus();
   },
   watch: {
-    champion: {
+    selectedChampionId: {
       handler() {
-        this.formattedChampion = getFormattedChampion(this.champion);
+        this.updateFormatedChampion()
       },
     },
   },
   props: {
-    championScore: Object,
-    champion: Object,
+    selectedChampionId: {
+      type: String,
+      required: true,
+    },
   },
   methods: {
+    updateFormatedChampion() {
+      const champion = rawChampionList.value[this.selectedChampionId];
+      this.formattedChampion = getFormattedChampion(champion);
+    },
     updateCurrentChampionScore(position, positionScore) {
-      this.newChampionScore[position] = positionScore;
-
-      updateChampionScore(this.champion.id, this.newChampionScore);
+      this.formattedChampion.score[position] = positionScore;
+      updateChampionScore(this.champion.id, this.formattedChampion.score);
     },
     closeModal() {
       this.$emit("removeSelectedChampion");
@@ -62,9 +69,6 @@ export default {
 </style>
 <template>
   <Transition>
-    <!-- <div class="modal-wrapper">
-      <div class="modal">{{ championScore }}</div>
-    </div> -->
     <div
       id="defaultModal"
       tabindex="-1"
@@ -85,9 +89,9 @@ export default {
           <div
             class="flex items-start justify-between rounded-t border-b py-4 px-6 dark:border-gray-600 relative"
           >
-            <img :src="formattedChampion.image" :alt="champion.name" class="aspect-square w-8 mr-2">
+            <img :src="formattedChampion.image" :alt="formattedChampion.name" class="aspect-square w-8 mr-2">
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-              {{ champion.name }}
+              {{ formattedChampion.name }}
             </h3>
             <button
               type="button"
@@ -115,7 +119,7 @@ export default {
             <div
               class="score-position"
               :key="position"
-              v-for="position in Object.keys(championScore)"
+              v-for="position in Object.keys(formattedChampion.score)"
             >
               <p class="mb-2 text-black dark:text-white">{{ position }}</p>
               <div class="grid grid-cols-5 gap-2">
@@ -123,7 +127,7 @@ export default {
                   v-for="(color, index) in scoreColors"
                   :key="index"
                   :class="
-                    (championScore[position] == index + 1
+                    (formattedChampion.score[position] == index + 1
                       ? `bg-${color}-600`
                       : `bg-${color}-200`) + ` hover:bg-${color}-600`
                   "

@@ -6,9 +6,11 @@ import {
   championScoreList,
   rawChampionList,
   getFormattedChampion,
+  selectedChampionId
 } from "@/state/champions";
 
 import Champion from "@/components/champion.vue";
+import PickerModal from "@/components/pickerModal.vue";
 
 export default {
   data() {
@@ -26,6 +28,7 @@ export default {
       // champions
       championScoreList,
       rawChampionList,
+      selectedChampionId,
 
       championList: {},
     };
@@ -92,7 +95,7 @@ export default {
       this.championList = champions;
     },
   },
-  components: { Champion },
+  components: { Champion, PickerModal },
 };
 </script>
 <template>
@@ -177,4 +180,9 @@ export default {
       </div>
     </div>
   </div>
+  <PickerModal
+      v-if="selectedChampionId"
+      :selectedChampionId="selectedChampionId"
+      @remove-selected-champion="selectedChampionId = null"
+    />
 </template>

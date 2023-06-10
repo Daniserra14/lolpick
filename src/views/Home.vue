@@ -8,8 +8,10 @@ import {
   championScoreList,
   getFormattedChampion,
   availableTags,
+  selectedChampionId,
 } from "@/state/champions";
 import { ddragonRoutes } from "@/state/ddragonRoutes";
+import PickerModal from "@/components/pickerModal.vue";
 
 export default {
   name: "Home",
@@ -18,6 +20,7 @@ export default {
       //champions
       rawChampionList,
       championScoreList,
+      selectedChampionId,
 
       //tags
       availableTags,
@@ -91,7 +94,7 @@ export default {
       this.searchValue = value;
     },
   },
-  components: { Search, Champion },
+  components: { Search, Champion, PickerModal },
 };
 </script>
 
@@ -150,4 +153,9 @@ export default {
   <div v-if="championList.length == 0" class="mt-32">
     <p class="text-center text-3xl">Who the **** is that!?</p>
   </div>
+  <PickerModal
+      v-if="selectedChampionId"
+      :selectedChampionId="selectedChampionId"
+      @remove-selected-champion="selectedChampionId = null"
+    />
 </template>

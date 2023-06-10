@@ -10,7 +10,6 @@ import {
   selectedChampionId
 } from "@/state/champions";
 import { ddragonRoutes } from "@/state/ddragonRoutes";
-import PickerModal from "./components/pickerModal.vue";
 
 export default {
     data() {
@@ -93,7 +92,6 @@ export default {
             }
         },
     },
-    components: { PickerModal }
 };
 </script>
 <template>
@@ -142,11 +140,5 @@ export default {
       </button>
     </div>
     <router-view />
-    <PickerModal
-      v-if="selectedChampionId"
-      :championScore="championScoreList[selectedChampionId]"
-      :champion="rawChampionList[selectedChampionId]"
-      @remove-selected-champion="selectedChampionId = null"
-    />
   </div>
 </template>
