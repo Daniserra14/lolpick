@@ -43,7 +43,7 @@ export default {
     },
     updateCurrentChampionScore(position, positionScore) {
       this.formattedChampion.score[position] = positionScore;
-      updateChampionScore(this.champion.id, this.formattedChampion.score);
+      updateChampionScore(this.formattedChampion.id, this.formattedChampion.score);
     },
     closeModal() {
       this.$emit("removeSelectedChampion");
