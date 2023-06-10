@@ -59,10 +59,6 @@ export default {
         championScoreList.value = JSON.parse(localStorage.getItem("championScoreList") || "{}");
         Object.values(rawChampionList.value).forEach((champion) => {
             if (!championScoreList.value[champion.id]) {
-                // this.newChampions.push({
-                //   name: champion.name,
-                //   image: ddragonRoutes.championImg + champion.image.full,
-                // });
                 updateChampionScore(champion.id, {
                     top: 0,
                     jungle: 0,
