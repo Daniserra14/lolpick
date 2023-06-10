@@ -21,6 +21,13 @@ export default {
     // focus on dialog
     this.$refs.dialog.focus();
   },
+  watch: {
+    champion: {
+      handler() {
+        this.formattedChampion = getFormattedChampion(this.champion);
+      },
+    },
+  },
   props: {
     championScore: Object,
     champion: Object,
@@ -33,6 +40,9 @@ export default {
     },
     closeModal() {
       this.$emit("removeSelectedChampion");
+    },
+    selectRandomChampion() {
+      this.$emit("selectRandomChampion");
     },
   },
 };
@@ -127,10 +137,10 @@ export default {
           </div>
           <div v-if="isRatePage" class="m-6 text-right relative">
             <button 
-              @click="closeModal()"
+              @click="selectRandomChampion()"
               class="rounded-lg border border-gray-200 mt-3 px-3 py-2 text-sm"
             >
-              Next champion
+              Random champion
             </button>
           </div>
         </div>
