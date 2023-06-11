@@ -160,7 +160,7 @@ export default {
       >
         <div class="grid grid-flow-col grid-cols-6">
           <div class="col-span-1 text-center relative">
-            <span class="sticky top-5">
+            <span class="sticky top-5 font-medium">
               Tier {{ score }}
             </span>
           </div>
