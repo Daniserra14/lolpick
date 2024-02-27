@@ -1,7 +1,5 @@
 # LoL Pick
 
-https://lolpick.netlify.app/
-
 ## Project setup
 
 ```
