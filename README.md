@@ -1,5 +1,7 @@
 # LoL Pick
 
+[Vercel](https://lolpick.vercel.app/)
+
 ## Project setup
 
 ```
